@@ -24,7 +24,7 @@
             <div class="card-body text-center">
                 <i class="fas fa-calendar-plus fa-2x mb-2"></i>
                 <h6 class="card-title">Upcoming Appointments</h6>
-                <h3 class="fw-bold">@Model.UpcomingAppointments.Count</h3>
+                <h3 class="fw-bold">@(Model.UpcomingAppointments?.Count ?? 0)</h3>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
             <div class="card-body text-center">
                 <i class="fas fa-file-medical fa-2x mb-2"></i>
                 <h6 class="card-title">Medical Records</h6>
-                <h3 class="fw-bold">-</h3>
+                <h3 class="fw-bold">@(Model.MedicalRecords?.Count ?? 0)</h3>
             </div>
         </div>
     </div>
