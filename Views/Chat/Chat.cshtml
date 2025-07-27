@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Chat";
+    var senderName = User.Identity.Name;
+}
+
+<div class="container mt-3">
+    <h3 class="mb-4 text-center">Real-Time Chat</h3>
+
+    <div id="chatWindow" class="border p-3 rounded" style="height: 400px; overflow-y: auto; background-color: #f8f9fa;">
+        <!-- Messages will appear here -->
+    </div>
+
+    <div class="input-group mt-3">
+        <input type="text" id="messageInput" class="form-control" placeholder="Type your message..." />
+        <button class="btn btn-success" onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Bootstrap & Moment.js (for time formatting) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+        const username = "@senderName";
+        const receiver = prompt("Enter doctor's or patient's username:"); // Replace with dropdown in future
+
+        connection.on("ReceiveMessage", (sender, message, timestamp) => {
+            const chatWindow = document.getElementById("chatWindow");
+            const isMine = sender === username;
+
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("mb-2", "d-flex", isMine ? "justify-content-end" : "justify-content-start");
+
+            messageDiv.innerHTML = `
+                <div class="p-2 rounded" style="max-width: 75%; background-color: ${isMine ? '#dcf8c6' : '#ffffff'}; border: 1px solid #ccc;">
+                    <div class="fw-bold mb-1">${isMine ? "You" : sender}</div>
+                    <div>${message}</div>
+                    <div class="text-muted small text-end mt-1">${moment(timestamp).format('hh:mm A')}</div>
+                </div>
+            `;
+            chatWindow.appendChild(messageDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        function sendMessage() {
+            const message = document.getElementById("messageInput").value.trim();
+            if (message === "") return;
+
+            const sender = username;
+            const timestamp = new Date().toISOString();
+
+            connection.invoke("SendMessage", sender, receiver, message, timestamp)
+                .catch(err => console.error(err.toString()));
+
+            document.getElementById("messageInput").value = '';
+        }
+    </script>
+}
+
