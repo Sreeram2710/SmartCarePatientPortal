@@ -13,8 +13,9 @@
         public List<Appointment> RecentAppointments { get; set; } = new List<Appointment>();
         public List<Appointment> UpcomingAppointments { get; set; } = new List<Appointment>();
 
-        // ✅ Added for patient health dashboard
         public List<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
         public List<string> Alerts { get; set; } = new List<string>();
+
+        public List<Prescription> Prescriptions { get; set; } = new List<Prescription>();
     }
 }

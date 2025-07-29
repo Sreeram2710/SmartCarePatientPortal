@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartCarePatientPortal.Models;
 
@@ -11,9 +12,11 @@ using SmartCarePatientPortal.Models;
 namespace SmartCarePatientPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250731102300_AddEmergencyContactAndAllergy")]
+    partial class AddEmergencyContactAndAllergy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,7 +374,7 @@ namespace SmartCarePatientPortal.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactId"));
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -384,6 +387,7 @@ namespace SmartCarePatientPortal.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Relationship")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -642,7 +646,7 @@ namespace SmartCarePatientPortal.Migrations
             modelBuilder.Entity("SmartCarePatientPortal.Models.EmergencyContact", b =>
                 {
                     b.HasOne("SmartCarePatientPortal.Models.Patient", "Patient")
-                        .WithMany("EmergencyContacts")
+                        .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -716,8 +720,6 @@ namespace SmartCarePatientPortal.Migrations
             modelBuilder.Entity("SmartCarePatientPortal.Models.Patient", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("EmergencyContacts");
 
                     b.Navigation("MedicalRecords");
 

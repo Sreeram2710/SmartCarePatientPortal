@@ -24,7 +24,8 @@
             <div class="card-body text-center">
                 <i class="fas fa-calendar-plus fa-2x mb-2"></i>
                 <h6 class="card-title">Upcoming Appointments</h6>
-                <h3 class="fw-bold">@(Model.UpcomingAppointments?.Count ?? 0)</h3>
+                <h3 class="fw-bold">@(Model.Prescriptions?.Count ?? 0)</h3>
+
             </div>
         </div>
     </div>
@@ -177,6 +178,10 @@
                     <a asp-action="Prescriptions" class="btn btn-outline-warning">
                         <i class="fas fa-pills me-2"></i> Prescriptions
                     </a>
+                    <a asp-controller="EmergencyContact" asp-action="Index" class="btn btn-outline-dark">
+                        <i class="fas fa-phone-alt me-2"></i> Emergency Contacts
+                    </a>
+
                     <a asp-controller="Account" asp-action="Profile" class="btn btn-outline-info">
                         <i class="fas fa-user-edit me-2"></i> Edit Profile
                     </a>
