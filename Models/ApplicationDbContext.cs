@@ -17,6 +17,9 @@ namespace SmartCarePatientPortal.Models
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
+        public DbSet<EmergencyContact> EmergencyContacts { get; set; }
+        public DbSet<Allergy> Allergies { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

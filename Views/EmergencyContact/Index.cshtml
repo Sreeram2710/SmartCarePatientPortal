@@ -1,0 +1,40 @@
+﻿@model List<SmartCarePatientPortal.Models.EmergencyContact>
+
+@{
+    ViewData["Title"] = "Emergency Contacts";
+}
+
+<h2>Emergency Contacts</h2>
+<a class="btn btn-primary mb-3" asp-action="Create">Add New Contact</a>
+
+@if (Model.Count == 0)
+{
+    <p>No emergency contacts available.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Relationship</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model)
+            {
+                <tr>
+                    <td>@contact.FullName</td>
+                    <td>@contact.PhoneNumber</td>
+                    <td>@contact.Relationship</td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@contact.ContactId">Edit</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@contact.ContactId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartCarePatientPortal.Models
@@ -21,7 +22,7 @@ namespace SmartCarePatientPortal.Models
         [StringLength(200)]
         public string Diagnosis { get; set; }
 
-        // FIXED: Optional fields are now nullable
+        // Optional fields
         [StringLength(500)]
         public string? Symptoms { get; set; }
 
@@ -30,6 +31,10 @@ namespace SmartCarePatientPortal.Models
 
         [StringLength(500)]
         public string? Notes { get; set; }
+
+        // Optional field to track tests
+        [StringLength(200)]
+        public string? TestName { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
