@@ -361,3 +361,18 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Migrations/20250614100139_InitialCreate.cs
+/Migrations/
+/Migrations/20250614100139_InitialCreate.cs
+Migrations/
+Migrations
+/Migrations/20250614100139_InitialCreate.cs
+/Migrations/20250614100139_InitialCreate.Designer.cs
+/Migrations/20250614105649_MakeNotesOptional.cs
+/Migrations/20250614105649_MakeNotesOptional.Designer.cs
+/appsettings.json
+/SmartCarePatientPortal.csproj
+/Migrations/20250614100139_InitialCreate.cs
+/Migrations/20250614100139_InitialCreate.Designer.cs
+/Migrations/20250614105649_MakeNotesOptional.cs
+/Migrations/20250614105649_MakeNotesOptional.Designer.cs
