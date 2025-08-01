@@ -1,0 +1,21 @@
+﻿@model SmartCarePatientPortal.Models.LabTest
+
+@{
+    ViewData["Title"] = "Upload Lab Test Result";
+}
+
+<h2>Upload Lab Test Result</h2>
+
+<div class="mb-3">
+    <strong>Test Name:</strong> @Model.TestName <br />
+    <strong>Patient ID:</strong> @Model.PatientId <br />
+    <strong>Status:</strong> @Model.Status
+</div>
+
+<form asp-action="Complete" asp-route-id="@Model.LabTestId" enctype="multipart/form-data" method="post">
+    <div class="mb-3">
+        <label for="resultFile" class="form-label">Select Result File (PDF or Image):</label>
+        <input type="file" name="resultFile" id="resultFile" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.bmp,.doc,.docx,.xls,.xlsx,.txt" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload & Complete</button>
+</form>

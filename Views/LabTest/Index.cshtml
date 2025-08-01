@@ -1,0 +1,77 @@
+﻿@model IEnumerable<SmartCarePatientPortal.Models.LabTest>
+
+@{
+    ViewBag.Title = "Lab Tests";
+    var role = ViewBag.UserRole as string; // get the role string from ViewBag
+}
+
+<h2>Lab Tests</h2>
+
+@if (role == "Doctor")
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New Lab Test</a>
+    </p>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>Status</th>
+            <th>Result File</th>
+            <th>Comments</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TestName</td>
+                <td>@item.Status</td>
+                <td>
+                    @if (item.Status == LabTestStatus.Completed && role == "Patient")
+                    {
+                        <a href="@Url.Content(item.ResultFilePath)">Download Result</a>
+                    }
+                    else
+                    {
+                        @item.ResultFilePath
+                    }
+                </td>
+                <td>@item.Comments</td>
+                <td>@item.Patient?.PatientNumber</td>
+                <td>@item.Doctor?.DoctorNumber</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.LabTestId">Details</a>
+
+                    @* Only Doctor can Edit/Delete when Pending *@
+                    @if (role == "Doctor" && item.Status == LabTestStatus.Pending)
+                    {
+                        <span> | </span>
+                        <a asp-action="Edit" asp-route-id="@item.LabTestId">Edit</a>
+                        <span> | </span>
+                        <a asp-action="Delete" asp-route-id="@item.LabTestId">Delete</a>
+                    }
+
+                    @* Only Patient can Accept when Pending *@
+                    @if (role == "Patient" && item.Status == LabTestStatus.Pending)
+                    {
+                        <span> | </span>
+                        <a asp-action="Accept" asp-route-id="@item.LabTestId">Accept</a>
+                    }
+
+                    @* Only Admin can Complete when InProgress *@
+                    @if (role == "Admin" && item.Status == LabTestStatus.InProgress)
+                    {
+                        <span> | </span>
+                        <a asp-action="Complete" asp-route-id="@item.LabTestId">Complete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

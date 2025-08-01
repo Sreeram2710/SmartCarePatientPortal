@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using SmartCarePatientPortal.Models;
 using System.Diagnostics;
 
@@ -6,13 +7,24 @@ namespace SmartCarePatientPortal.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public HomeController(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
         public IActionResult Index()
         {
+            var user = _userManager.GetUserAsync(User).Result;
+            ViewBag.UserRole = user != null ? user.Role.ToString() : null;
             return View();
         }
 
         public IActionResult About()
         {
+            var user = _userManager.GetUserAsync(User).Result;
+            ViewBag.UserRole = user != null ? user.Role.ToString() : null;
             return View();
         }
 

@@ -52,6 +52,23 @@
     </div>
 </div>
 
+<!-- LAB TESTS DASHBOARD CARD ADDED HERE -->
+<div class="row g-3 mb-4">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-sm text-white bg-warning">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="card-title text-uppercase mb-1">Lab Tests</h6>
+                    <div class="fw-bold mb-0">Order and review lab tests for your patients</div>
+                </div>
+                <a asp-controller="LabTest" asp-action="Index" class="btn btn-dark btn-lg">
+                    <i class="fas fa-vials me-2"></i> Go to Lab Tests
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END LAB TESTS DASHBOARD CARD -->
 <!-- Main Content Row -->
 <div class="row g-4">
     <div class="col-lg-8">
@@ -67,8 +84,8 @@
                     @foreach (var appointment in Model.UpcomingAppointments)
                     {
                         <div class="appointment-card border rounded p-3 mb-3
-                                    @(appointment.Status == AppointmentStatus.InProgress ? "border-warning bg-warning bg-opacity-10" : "")
-                                    @(appointment.AppointmentDate.Date == DateTime.Today ? "border-primary bg-primary bg-opacity-10" : "")">
+                                            @(appointment.Status == AppointmentStatus.InProgress ? "border-warning bg-warning bg-opacity-10" : "")
+                                            @(appointment.AppointmentDate.Date == DateTime.Today ? "border-primary bg-primary bg-opacity-10" : "")">
                             <div class="row align-items-center">
                                 <div class="col-md-3">
                                     <div class="text-center">
@@ -91,21 +108,21 @@
                                     </h6>
                                     <p class="mb-1 text-muted">@appointment.Reason</p>
                                     <span class="badge bg-@(appointment.Status == AppointmentStatus.Scheduled ? "primary" :
-                                                           appointment.Status == AppointmentStatus.InProgress ? "warning" :
-                                                           appointment.Status == AppointmentStatus.Completed ? "success" : "secondary")">
-                                        @appointment.Status
-                                    </span>
-                                </div>
-                                <div class="col-md-4 text-end">
-                                    <div class="btn-group-vertical gap-1 w-100">
-                                        <!-- View Details Button -->
-                                        <a asp-controller="Appointment" asp-action="Details" asp-route-id="@appointment.AppointmentId"
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-eye"></i> View Details
-                                        </a>
+                                                                                                     appointment.Status == AppointmentStatus.InProgress ? "warning" :
+                                                                                                     appointment.Status == AppointmentStatus.Completed ? "success" : "secondary")">
+                                @appointment.Status
+                            </span>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="btn-group-vertical gap-1 w-100">
+                                <!-- View Details Button -->
+                                <a asp-controller="Appointment" asp-action="Details" asp-route-id="@appointment.AppointmentId"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
 
                                         <!-- Action Buttons Based on Status -->
-                                        @if (appointment.Status == AppointmentStatus.Scheduled)
+                                @if (appointment.Status == AppointmentStatus.Scheduled)
                                         {
                                             <!-- Start Consultation -->
                                             <form asp-controller="Appointment" asp-action="UpdateStatus" asp-route-id="@appointment.AppointmentId"

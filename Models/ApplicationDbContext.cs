@@ -18,6 +18,9 @@ namespace SmartCarePatientPortal.Models
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
 
+        public DbSet<LabTest> LabTests { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

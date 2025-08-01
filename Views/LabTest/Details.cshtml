@@ -1,0 +1,49 @@
+﻿@model SmartCarePatientPortal.Models.LabTest
+
+@{
+    ViewData["Title"] = "Lab Test Details";
+}
+
+<h2>Lab Test Details</h2>
+
+<table class="table table-bordered w-50">
+    <tr>
+        <th>Test Name</th>
+        <td>@Model.TestName</td>
+    </tr>
+    <tr>
+        <th>Comments</th>
+        <td>@Model.Comments</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>@Model.Status</td>
+    </tr>
+    <tr>
+        <th>Ordered Date</th>
+        <td>@Model.OrderedDate.ToString("yyyy-MM-dd")</td>
+    </tr>
+    <tr>
+        <th>Patient</th>
+        <td>@Model.PatientId</td>
+    </tr>
+    <tr>
+        <th>Doctor</th>
+        <td>@Model.DoctorId</td>
+    </tr>
+    <tr>
+        <th>Result File</th>
+        <td>
+            @if (!string.IsNullOrEmpty(Model.ResultFilePath))
+            {
+                <a href="@Url.Content(Model.ResultFilePath)" class="btn btn-sm btn-primary" target="_blank">View/Download</a>
+            }
+            else
+            {
+                <span class="text-muted">No result uploaded</span>
+            }
+        </td>
+    </tr>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary mt-2">Back to List</a>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SmartCarePatientPortal.Models.LabTest>
+
+@{
+    ViewData["Title"] = "My Lab Tests";
+}
+
+<h2>My Lab Tests</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>Status</th>
+            <th>Ordered Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var test in Model)
+        {
+            <tr>
+                <td>@test.TestName</td>
+                <td>@test.Status</td>
+                <td>@test.OrderedDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    @if (test.Status == SmartCarePatientPortal.Models.LabTestStatus.Pending)
+                    {
+                        <form asp-action="Accept" asp-route-id="@test.LabTestId" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-success">Accept</button>
+                        </form>
+
+                    }
+                    else if (test.Status == SmartCarePatientPortal.Models.LabTestStatus.Completed && !string.IsNullOrEmpty(test.ResultFilePath))
+                    {
+                        <a href="@Url.Content(test.ResultFilePath)" class="btn btn-sm btn-primary" download>Download Result</a>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
