@@ -15,6 +15,7 @@ namespace SmartCarePatientPortal.Controllers
         private readonly ApplicationDbContext _context;
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
+        //some constants for OpenAI API
         private const string SessionKey = "ChatHistory";
 
         public AccountController(UserManager<ApplicationUser> userManager,
