@@ -370,7 +370,7 @@ Migrations
 /Migrations/20250614100139_InitialCreate.Designer.cs
 /Migrations/20250614105649_MakeNotesOptional.cs
 /Migrations/20250614105649_MakeNotesOptional.Designer.cs
-/appsettings.json
+
 /SmartCarePatientPortal.csproj
 /Migrations/20250614100139_InitialCreate.cs
 /Migrations/20250614100139_InitialCreate.Designer.cs
@@ -383,4 +383,5 @@ Migrations
 /Migrations/20250731104542_AddEmergencyContact.cs
 /Migrations/20250731104542_AddEmergencyContact.Designer.cs
 /Migrations/ApplicationDbContextModelSnapshot.cs
-/appsettings.json
+
+

@@ -1,0 +1,21 @@
+﻿@model ChatAIModel
+@{
+    ViewData["Title"] = "Chat with AI";
+}
+<h2>Chat with AI</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="UserInput">Your message:</label>
+        <textarea asp-for="UserInput" class="form-control" rows="4"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Send</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.AiResponse))
+{
+    <div class="mt-4">
+        <h4>AI Response:</h4>
+        <div class="alert alert-info">@Model.AiResponse</div>
+    </div>
+}

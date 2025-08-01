@@ -34,6 +34,9 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<AppointmentService>();
 builder.Services.AddScoped<EmailService>();
 
+builder.Services.Configure<OpenAISettings>(
+    builder.Configuration.GetSection("OpenAI"));
+
 // Add MVC
 builder.Services.AddControllersWithViews();
 
