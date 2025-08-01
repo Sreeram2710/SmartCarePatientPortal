@@ -383,3 +383,4 @@ Migrations
 /Migrations/20250731104542_AddEmergencyContact.cs
 /Migrations/20250731104542_AddEmergencyContact.Designer.cs
 /Migrations/ApplicationDbContextModelSnapshot.cs
+/appsettings.json
