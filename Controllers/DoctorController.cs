@@ -130,6 +130,55 @@ namespace SmartCarePatientPortal.Controllers
 
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> AddMedicalRecord(int appointmentId)
+        {
+            var appointment = await _context.Appointments.FindAsync(appointmentId);
+            if (appointment == null) return NotFound();
+
+            var model = new AddMedicalRecordViewModel
+            {
+                AppointmentId = appointment.AppointmentId,
+                PatientId = appointment.PatientId,
+                VisitDate = appointment.AppointmentDate
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddMedicalRecord(AddMedicalRecordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == user.Id);
+                if (doctor == null) return Unauthorized();
+
+                var record = new MedicalRecord
+                {
+                    PatientId = model.PatientId,
+                    DoctorId = doctor.DoctorId,
+                    VisitDate = model.VisitDate,
+                    Diagnosis = model.Diagnosis,
+                    Symptoms = model.Symptoms,
+                    Treatment = model.Treatment,
+                    Notes = model.Notes,
+                    TestName = model.TestName
+                };
+
+                _context.MedicalRecords.Add(record);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Medical record added successfully.";
+                return RedirectToAction("Appointments");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> AddPrescription(int patientId, int? appointmentId = null)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -183,7 +232,6 @@ namespace SmartCarePatientPortal.Controllers
 
                 TempData["Success"] = $"Prescription for {model.MedicineName} added successfully!";
 
-                // If came from appointment, redirect back to appointment details
                 if (model.AppointmentId.HasValue)
                 {
                     return RedirectToAction("Details", "Appointment", new { id = model.AppointmentId });
@@ -192,7 +240,6 @@ namespace SmartCarePatientPortal.Controllers
                 return RedirectToAction("Patients");
             }
 
-            // Reload patient info if model is invalid
             var patient = await _context.Patients
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(p => p.PatientId == model.PatientId);

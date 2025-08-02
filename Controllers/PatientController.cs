@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartCarePatientPortal.Models;
 using SmartCarePatientPortal.Models.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmartCarePatientPortal.Controllers
 {
@@ -30,6 +34,16 @@ namespace SmartCarePatientPortal.Controllers
             var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == user.Id);
             if (patient == null) return NotFound();
 
+            var medicalRecords = await _context.MedicalRecords
+                .Where(m => m.PatientId == patient.PatientId)
+                .OrderByDescending(m => m.VisitDate)
+                .ToListAsync();
+
+            var overdueAlerts = medicalRecords
+                .Where(r => r.VisitDate < DateTime.Now.AddMonths(-6))
+                .Select(r => $"Overdue: {r.TestName} ({r.VisitDate.ToShortDateString()})")
+                .ToList();
+
             var model = new DashboardViewModel
             {
                 UserName = user.FullName,
@@ -45,7 +59,9 @@ namespace SmartCarePatientPortal.Controllers
                     .Where(a => a.PatientId == patient.PatientId && a.AppointmentDate < DateTime.Today)
                     .OrderByDescending(a => a.AppointmentDate)
                     .Take(3)
-                    .ToListAsync()
+                    .ToListAsync(),
+                MedicalRecords = medicalRecords,
+                Alerts = overdueAlerts
             };
 
             return View(model);
@@ -75,7 +91,6 @@ namespace SmartCarePatientPortal.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == user.Id);
 
-                // Check for conflicting appointments
                 var existingAppointment = await _context.Appointments
                     .FirstOrDefaultAsync(a => a.DoctorId == model.DoctorId
                                            && a.AppointmentDate.Date == model.AppointmentDate.Date
@@ -95,7 +110,7 @@ namespace SmartCarePatientPortal.Controllers
                         AppointmentDate = model.AppointmentDate,
                         AppointmentTime = model.AppointmentTime,
                         Reason = model.Reason,
-                        Notes = string.IsNullOrEmpty(model.Notes) ? null : model.Notes, // Handle empty notes
+                        Notes = string.IsNullOrEmpty(model.Notes) ? null : model.Notes,
                         Status = AppointmentStatus.Scheduled
                     };
 
@@ -107,7 +122,6 @@ namespace SmartCarePatientPortal.Controllers
                 }
             }
 
-            // Reload doctors if model is invalid
             model.AvailableDoctors = await _context.Doctors
                 .Include(d => d.User)
                 .Where(d => d.IsAvailable)
