@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartCarePatientPortal.Models;
 using SmartCarePatientPortal.Models.ViewModels;
@@ -28,6 +29,8 @@ namespace SmartCarePatientPortal.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
