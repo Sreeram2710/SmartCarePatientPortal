@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -40,6 +41,7 @@ namespace SmartCarePatientPortal.Models
 
         // Navigation
         [ForeignKey("PatientId")]
+        [DeleteBehavior(DeleteBehavior.Restrict)]
         public virtual Patient? Patient { get; set; } 
 
         [ForeignKey("DoctorId")]
