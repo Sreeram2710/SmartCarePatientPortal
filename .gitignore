@@ -367,9 +367,15 @@ FodyWeavers.xsd
 /Migrations/20250731102300_AddEmergencyContactAndAllergy.cs
 /Migrations/20250731104542_AddEmergencyContact.cs
 /Migrations/ApplicationDbContextModelSnapshot.cs
+
 /Migrations/20250731102300_AddEmergencyContactAndAllergy.Designer.cs
 /Migrations/20250731104542_AddEmergencyContact.Designer.cs
 *.cs
 /Models/EmergencyContact.cs
 /Migrations/20250731102300_AddEmergencyContactAndAllergy.Designer.cs
 /Migrations/20250731104542_AddEmergencyContact.Designer.cs
+=======
+/Migrations/
+/Migrations
+
+
