@@ -20,6 +20,7 @@ namespace SmartCarePatientPortal.Controllers
             _userManager = userManager;
         }
 
+        // GET: EmergencyContact list for the logged-in patient
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -30,12 +31,15 @@ namespace SmartCarePatientPortal.Controllers
             return View(patient.EmergencyContacts.ToList());
         }
 
+        // GET: Create EmergencyContact
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST: Create EmergencyContact
         [HttpPost]
+        [ValidateAntiForgeryToken] // ✅ Added CSRF protection
         public async Task<IActionResult> Create(EmergencyContact contact)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -52,6 +56,7 @@ namespace SmartCarePatientPortal.Controllers
             return View(contact);
         }
 
+        // GET: Edit EmergencyContact
         public async Task<IActionResult> Edit(int id)
         {
             var contact = await _context.EmergencyContacts.FindAsync(id);
@@ -59,7 +64,9 @@ namespace SmartCarePatientPortal.Controllers
             return View(contact);
         }
 
+        // POST: Edit EmergencyContact
         [HttpPost]
+        [ValidateAntiForgeryToken] // ✅ Added CSRF protection
         public async Task<IActionResult> Edit(EmergencyContact contact)
         {
             if (ModelState.IsValid)
@@ -71,6 +78,7 @@ namespace SmartCarePatientPortal.Controllers
             return View(contact);
         }
 
+        // GET: Delete EmergencyContact
         public async Task<IActionResult> Delete(int id)
         {
             var contact = await _context.EmergencyContacts.FindAsync(id);
@@ -82,3 +90,4 @@ namespace SmartCarePatientPortal.Controllers
         }
     }
 }
+
