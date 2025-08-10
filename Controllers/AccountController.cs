@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SmartCarePatientPortal.Models;
 using SmartCarePatientPortal.Models.ViewModels;
+using System.Text;
 
 namespace SmartCarePatientPortal.Controllers
 {
@@ -10,15 +13,60 @@ namespace SmartCarePatientPortal.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
+        private readonly HttpClient _httpClient;
+        private readonly string _apiKey;
+        //some constants for OpenAI API
+        private const string SessionKey = "ChatHistory";
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                SignInManager<ApplicationUser> signInManager,
-                               ApplicationDbContext context)
+                               ApplicationDbContext context, IOptions<OpenAISettings> openAISettings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _httpClient = new HttpClient();
+            _apiKey = openAISettings.Value.ApiKey;
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
+
         }
+
+        // Implementing the ChatGPT API call
+        [HttpGet]
+        public IActionResult ChatAI()
+        {
+            return View(new ChatAIModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChatAI(ChatAIModel model)
+        {
+            var request = new
+            {
+                model = "gpt-3.5-turbo",
+                messages = new[]
+                {
+                new { role = "user", content = model.UserInput }
+            }
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(Constants.OpenAI_API, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                dynamic json = JsonConvert.DeserializeObject(result);
+                model.AiResponse = json.choices[0].message.content;
+            }
+            else
+            {
+                model.AiResponse = "Something went wrong with the AI.";
+            }
+
+            return View(model);
+        }
+
 
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
