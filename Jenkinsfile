@@ -2,17 +2,17 @@ pipeline {
     agent any
 
     environment {
-        PROJECT_PATH  = "SimpleGitProj/SimpleGitProj.csproj"
+        PROJECT_PATH  = "SmartCarePatientPortal.csproj"
         BUILD_CONFIG  = "Release"
-        PUBLISH_DIR   = "C:\\_Publish\\SimpleGitProj_publish"
-        IIS_SITE_PATH = "C:\\_Publish\\SimpleGitProj"
-        APP_POOL_NAME = "SimpleGitProj"
+        PUBLISH_DIR   = "C:\\_Publish\\SmartCarePatientPortal_publish"
+        IIS_SITE_PATH = "C:\\_Publish\\SmartCarePatientPortal"
+        APP_POOL_NAME = "SmartCarePatientPortal"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/slava-vva/SimpleGitProj.git'
+                git branch: 'main', url: 'https://github.com/Sreeram2710/SmartCarePatientPortal.git'
             }
         }
 
