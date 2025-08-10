@@ -31,13 +31,13 @@ function initializeApp() {
     });
 
     // Initialize date inputs
-    $('input[type="date"]').each(function () {
+    /*$('input[type="date"]').each(function () {
         if (!$(this).val()) {
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
             $(this).attr('min', tomorrow.toISOString().split('T')[0]);
         }
-    });
+    });*/
 
     // Auto-refresh dashboard every 5 minutes
     if (window.location.pathname.includes('Dashboard')) {

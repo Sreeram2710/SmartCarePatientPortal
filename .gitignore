@@ -362,6 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Migrations/20250614100139_InitialCreate.cs
+
 /Migrations/
 /Migrations/20250614100139_InitialCreate.cs
 Migrations/
@@ -390,3 +391,4 @@ Migrations
 /appsettings.Development.json
 /appsettings.json
 /appsettings.Development.json
+

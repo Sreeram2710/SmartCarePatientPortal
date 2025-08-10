@@ -1,0 +1,33 @@
+﻿@model SmartCarePatientPortal.Models.LabTest
+
+@{
+    ViewData["Title"] = "Create Lab Test";
+}
+
+<h2>Create Lab Test</h2>
+
+<form asp-action="Create" method="post">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="mb-3" style="max-width: 250px;">
+        <label asp-for="TestName" class="form-label"></label>
+        <input asp-for="TestName" class="form-control form-control-sm" style="max-width: 250px;" />
+        <span asp-validation-for="TestName" class="text-danger"></span>
+    </div>
+    <div class="mb-3" style="max-width: 250px;">
+        <label asp-for="Comments" class="form-label"></label>
+        <input asp-for="Comments" class="form-control form-control-sm" style="max-width: 250px;" />
+        <span asp-validation-for="Comments" class="text-danger"></span>
+    </div>
+    <div class="mb-3" style="max-width: 250px;">
+        <label asp-for="PatientId" class="form-label"></label>
+        @Html.DropDownList("PatientId", ViewBag.PatientId as SelectList, "Select Patient", new { @class = "form-control form-control-sm", style = "max-width: 250px;" })
+        <span asp-validation-for="PatientId" class="text-danger"></span>
+    </div>
+    <div class="mb-3" style="max-width: 250px;">
+        <label asp-for="DoctorId" class="form-label"></label>
+        @Html.DropDownList("DoctorId", ViewBag.DoctorId as SelectList, "Select Doctor", new { @class = "form-control form-control-sm", style = "max-width: 250px;" })
+        <span asp-validation-for="DoctorId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Create</button>
+</form>
