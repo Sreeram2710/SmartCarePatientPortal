@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Sreeram2710/SmartCarePatientPortal.git'
+                git branch: 'develop', url: 'https://github.com/Sreeram2710/SmartCarePatientPortal.git'
             }
         }
 
