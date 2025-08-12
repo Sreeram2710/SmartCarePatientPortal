@@ -4,6 +4,7 @@ pipeline {
     environment {
         PROJECT_PATH  = "SmartCarePatientPortal.csproj"
         BUILD_CONFIG  = "Release"
+        TEST_PROJECT  = "SmartCarePatientPortal.TestOpenAIProject/SmartCarePatientPortal.TestOpenAIProject.csproj"
         PUBLISH_DIR   = "C:\\_Publish\\SmartCarePatientPortal_publish"
         IIS_SITE_PATH = "C:\\_Publish\\SmartCarePatientPortal"
         APP_POOL_NAME = "SmartCarePatientPortal"
@@ -16,6 +17,12 @@ pipeline {
             }
         }
 
+        stage('Run Unit Tests') {
+            steps {
+                bat "dotnet test %TEST_PROJECT% --configuration %BUILD_CONFIG% --no-build --logger trx"
+            }
+        }
+        
         stage('Publish') {
             steps {
                 bat "dotnet publish %PROJECT_PATH% -c %BUILD_CONFIG% -o %PUBLISH_DIR%"
