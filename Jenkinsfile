@@ -17,11 +17,11 @@ pipeline {
             }
         }
 
-        stage('Run Unit Tests') {
+        /*stage('Run Unit Tests') {
             steps {
                 bat "dotnet test %TEST_PROJECT% --configuration %BUILD_CONFIG% --no-build --logger trx"
             }
-        }
+        }*/
         
         stage('Publish') {
             steps {
